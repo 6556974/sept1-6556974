@@ -13,6 +13,8 @@
  */
 package cn.edu.whut.sept.zuul;
 
+import operation.Context;
+
 public class Game
 {
     private Parser parser;
@@ -104,15 +106,15 @@ public class Game
         }
 
         String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
-            printHelp();
-        }
-        else if (commandWord.equals("go")) {
-            goRoom(command);
-        }
-        else if (commandWord.equals("quit")) {
-            wantToQuit = quit(command);
-        }
+//        if (commandWord.equals("help")) {
+//            printHelp();
+//        }
+//        else if (commandWord.equals("go")) {
+//            goRoom(command);
+//        }
+//        else if (commandWord.equals("quit")) {
+//            wantToQuit = quit(command);
+//        }
         // else command not recognised.
         return wantToQuit;
     }
@@ -171,5 +173,12 @@ public class Game
         else {
             return true;  // signal that we want to quit
         }
+    }
+
+    public Parser getParser() {
+        return this.parser;
+    }
+    public Room getcurrentRoom() {
+        return this.currentRoom;
     }
 }
