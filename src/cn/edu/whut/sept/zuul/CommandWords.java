@@ -15,7 +15,7 @@ public class CommandWords
      * 定义合法的指令词.
      */
     private static final String[] validCommands = {
-            "go", "quit", "help"
+            "go", "quit", "help", "look", "back"
     };
 
 
