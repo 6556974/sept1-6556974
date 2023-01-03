@@ -5,9 +5,6 @@ import cn.edu.whut.sept.zuul.Game;
 import cn.edu.whut.sept.zuul.Room;
 
 public class Go extends Operation {
-    /**
-     * 调用父类的方法得到数据
-     */
     private final Command command = getCommand();
     private final Game game = getGame();
     private Room currentRoom;

@@ -14,6 +14,8 @@
 package cn.edu.whut.sept.zuul;
 
 import operation.Context;
+import operation.*;
+
 
 public class Game
 {
@@ -96,11 +98,10 @@ public class Game
      * @param command 待处理的游戏指令，由解析器从用户输入内容生成.
      * @return 如果执行的是游戏结束指令，则返回true，否则返回false.
      */
-    private boolean processCommand(Command command)
-    {
+    private boolean processCommand(Command command) {
         boolean wantToQuit = false;
 
-        if(command.isUnknown()) {
+        if (command.isUnknown()) {
             System.out.println("I don't know what you mean...");
             return false;
         }
@@ -115,65 +116,75 @@ public class Game
 //        else if (commandWord.equals("quit")) {
 //            wantToQuit = quit(command);
 //        }
-        // else command not recognised.
-        return wantToQuit;
-    }
-
+        switch (command.getCommandWord()) {
+            case "help":
+                new Context(new Help(command, this)).getResult();
+                break;
+            case "go":
+                new Context(new Go(command, this)).getResult();
+                break;
+            case "quit":
+                wantToQuit = (boolean) new Context(new Quit(command, this)).getResult();
+                break;
+        }
+            // else command not recognised.
+            return wantToQuit;
+        }
     // implementations of user commands:
 
-    /**
-     * 执行help指令，在终端打印游戏帮助信息.
-     * 此处会输出游戏中用户可以输入的命令列表
-     */
-    private void printHelp()
-    {
-        System.out.println("You are lost. You are alone. You wander");
-        System.out.println("around at the university.");
-        System.out.println();
-        System.out.println("Your command words are:");
-        parser.showCommands();
-    }
+//    /**
+//     * 执行help指令，在终端打印游戏帮助信息.
+//     * 此处会输出游戏中用户可以输入的命令列表
+//     */
+//    private void printHelp()
+//    {
+//        System.out.println("You are lost. You are alone. You wander");
+//        System.out.println("around at the university.");
+//        System.out.println();
+//        System.out.println("Your command words are:");
+//        parser.showCommands();
+//    }
 
-    /**
-     * 执行go指令，向房间的指定方向出口移动，如果该出口连接了另一个房间，则会进入该房间，
-     * 否则打印输出错误提示信息.
-     */
-    private void goRoom(Command command)
-    {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
-            System.out.println("Go where?");
-            return;
-        }
+//    /**
+//     * 执行go指令，向房间的指定方向出口移动，如果该出口连接了另一个房间，则会进入该房间，
+//     * 否则打印输出错误提示信息.
+//     */
+//    private void goRoom(Command command)
+//    {
+//        if(!command.hasSecondWord()) {
+//            // if there is no second word, we don't know where to go...
+//            System.out.println("Go where?");
+//            return;
+//        }
+//
+//        String direction = command.getSecondWord();
+//
+//        // Try to leave current room.
+//        Room nextRoom = currentRoom.getExit(direction);
+//
+//        if (nextRoom == null) {
+//            System.out.println("There is no door!");
+//        }
+//        else {
+//            currentRoom = nextRoom;
+//            System.out.println(currentRoom.getLongDescription());
+//        }
+//    }
 
-        String direction = command.getSecondWord();
-
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
-
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
-        }
-        else {
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
-        }
-    }
-
-    /**
-     * 执行Quit指令，用户退出游戏。如果用户在命令中输入了其他参数，则进一步询问用户是否真的退出.
-     * @return 如果游戏需要退出则返回true，否则返回false.
-     */
-    private boolean quit(Command command)
-    {
-        if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        }
-        else {
-            return true;  // signal that we want to quit
-        }
-    }
+//    /**
+//     * 执行Quit指令，用户退出游戏。如果用户在命令中输入了其他参数，则进一步询问用户是否真的退出.
+//     * @return 如果游戏需要退出则返回true，否则返回false.
+//     */
+//    private boolean quit(Command command)
+//    {
+//        if(command.hasSecondWord()) {
+//            System.out.println("Quit what?");
+//            return false;
+//        }
+//        else {
+//            return true;  // signal that we want to quit
+//        }
+//    }
 
     public Parser getParser() {
         return this.parser;
