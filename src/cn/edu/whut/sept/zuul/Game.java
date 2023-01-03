@@ -13,23 +13,28 @@
  */
 package cn.edu.whut.sept.zuul;
 
-import operation.Context;
 import operation.*;
+import room.*;
 
+import java.util.ArrayList;
 
 public class Game
 {
     private Parser parser;
-    private Room currentRoom;
-    private Player Player=null;
-
+    //private Room currentRoom;
+    private GeneralRoom startRoom;
+    private Player player=null;
+    private RoomFactory roomFactory;
+    private ArrayList<GeneralRoom> roomList=null;
     /**
      * 创建游戏并初始化内部数据和解析器.
      */
     public Game()
     {
-        createRooms();
+        roomList=new ArrayList<>();
+        player=new Player();
         parser = new Parser();
+        createRooms();
     }
 
     /**
@@ -37,14 +42,30 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+//        Room outside, theater, pub, lab, office;
 
-        // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+//        // create the rooms
+//        outside = new Room("outside the main entrance of the university");
+//        theater = new Room("in a lecture theater");
+//        pub = new Room("in the campus pub");
+//        lab = new Room("in a computing lab");
+//        office = new Room("in the computing admin office");
+
+        //创建普通房间
+        roomFactory = new Outside();
+        GeneralRoom outside = roomFactory.createRoom();
+        roomFactory = new Theater();
+        GeneralRoom theater= roomFactory.createRoom();
+        roomFactory = new Pub();
+        GeneralRoom pub= roomFactory.createRoom();
+        roomFactory = new Lab();
+        GeneralRoom lab= roomFactory.createRoom();
+        roomFactory = new Office();
+        GeneralRoom office= roomFactory.createRoom();
+
+        //创建随机传送房间
+        roomFactory = new randomRoomBuilding();
+        GeneralRoom rand= roomFactory.createRoom();
 
         // initialise room exits
         outside.setExit("east", theater);
@@ -52,6 +73,7 @@ public class Game
         outside.setExit("west", pub);
 
         theater.setExit("west", outside);
+        theater.setExit("south",rand);
 
         pub.setExit("east", outside);
 
@@ -60,7 +82,18 @@ public class Game
 
         office.setExit("west", lab);
 
-        currentRoom = outside;  // start game outside
+        rand.setExit("north",theater);
+
+        //将创建好的Rooms加入List
+        this.roomList.add(outside);
+        this.roomList.add(theater);
+        this.roomList.add(pub);
+        this.roomList.add(lab);
+        this.roomList.add(office);
+        startRoom=outside;
+
+        this.player.setCurrentRoom(outside);
+        //currentRoom = outside;  // start game outside
     }
 
     /**
@@ -91,7 +124,7 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println(currentRoom.getLongDescription());
+        System.out.println(player.getCurrentRoom().getLongDescription());
     }
 
     /**
@@ -125,7 +158,7 @@ public class Game
                 new Context(new Go(command, this)).getResult();
                 break;
             case "look":
-                new Context(new Quit(command, this)).getResult();
+                new Context(new Look(command, this)).getResult();
                 break;
 
             case "quit":
@@ -193,8 +226,13 @@ public class Game
 //    }
 
     public Parser getParser() { return this.parser; }
-    public Room getcurrentRoom() { return this.currentRoom; }
+    public GeneralRoom getStartRoom() {
+        return this.startRoom;
+    }
+    public ArrayList<GeneralRoom> getRoomList() {
+        return roomList;
+    }
     public Player getPlayer() {
-        return Player;
+        return player;
     }
 }

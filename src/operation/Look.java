@@ -1,6 +1,7 @@
 package operation;
 
 import cn.edu.whut.sept.zuul.*;
+import room.GeneralRoom;
 
 
 public class Look extends Operation{
@@ -12,7 +13,7 @@ public class Look extends Operation{
     @Override
     public Object copeWithCommand() {
 
-        Room currentRoom=this.getGame().getPlayer().getCurrentRoom();
+        GeneralRoom currentRoom=this.getGame().getPlayer().getCurrentRoom();
         System.out.println(currentRoom.getShortDescription());
         currentRoom.showItems();
         return null;

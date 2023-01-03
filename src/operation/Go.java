@@ -1,13 +1,13 @@
 package operation;
 
-import cn.edu.whut.sept.zuul.Command;
-import cn.edu.whut.sept.zuul.Game;
-import cn.edu.whut.sept.zuul.Room;
+import cn.edu.whut.sept.zuul.*;
+import room.GeneralRoom;
+
+import java.util.Random;
 
 public class Go extends Operation {
     private final Command command = getCommand();
     private final Game game = getGame();
-    private Room currentRoom;
 
     /**
      * @param command 读入的命令
@@ -23,24 +23,49 @@ public class Go extends Operation {
      */
     @Override
     public Object copeWithCommand() {
-        if(!command.hasSecondWord()) {
+        if (!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
             return "Unknow where to Go....";
         }
 
         String direction = command.getSecondWord();
+        if(direction.equals("start")){
+            game.getPlayer().setCurrentRoom(game.getStartRoom());
+            game.getPlayer().setLastRoom(null);
+            System.out.println(game.getPlayer().getCurrentRoom().getLongDescription());
+        }else{
+            // 尝试离开当前房间,前往新房间
+            GeneralRoom nextRoom = game.getPlayer().getCurrentRoom().getExit(direction);
+            if (nextRoom==null) {
+                System.out.println("There is no door!");
+            } else if (nextRoom.isTransfer()) {
+                //下一个房间为传送房间
+                //输出房间信息
+                System.out.println(nextRoom.getShortDescription());
+                //找到随即房间
+                GeneralRoom newRoom = null;
+                Random random=new Random();
+                newRoom = game.getRoomList().get(random.nextInt(game.getRoomList().size()));
+                //game.setLastRoom(null);
+                //game.setCurrentRoom(newRoom);
+                game.getPlayer().setCurrentRoom(newRoom);
+                game.getPlayer().setLastRoom(null);
+                System.out.println(game.getPlayer().getCurrentRoom().getLongDescription());
+            } else {
+                // 下一个房间为普通房间
+                //保存上个房间
+                //game.setLastRoom(game.getCurrentRoom());
+                game.getPlayer().setLastRoom(game.getPlayer().getCurrentRoom());
+                //进入下一个房间
+                //game.setCurrentRoom(nextRoom);
+                game.getPlayer().setCurrentRoom(nextRoom);
 
-        // Try to leave current room.
-        Room nextRoom = this.getGame().getcurrentRoom().getExit(direction);
-        if (nextRoom == null) {
-            System.out.println("There is no door!");
+                System.out.println(game.getPlayer().getCurrentRoom().getLongDescription());
+            }
         }
-        else {
-            this.currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
-        }
-        return "Success moving!";
+
+        return "Success moving !";
     }
 }
 

@@ -1,7 +1,7 @@
 package operation;
 
 import cn.edu.whut.sept.zuul.*;
-
+import room.GeneralRoom;
 
 
 public class Back extends Operation{
@@ -20,7 +20,7 @@ public class Back extends Operation{
             return "default moving !";
         }
         // 尝试离开当前房间,前往新房间
-        Room nextRoom = game.getPlayer().getLastRoom();
+        GeneralRoom nextRoom = game.getPlayer().getLastRoom();
 
         if (nextRoom==null) {
             System.out.println("There is no door!");
