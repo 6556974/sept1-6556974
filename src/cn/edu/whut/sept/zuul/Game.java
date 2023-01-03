@@ -21,6 +21,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Player Player=null;
 
     /**
      * 创建游戏并初始化内部数据和解析器.
@@ -123,9 +124,14 @@ public class Game
             case "go":
                 new Context(new Go(command, this)).getResult();
                 break;
+            case "look":
+                new Context(new Quit(command, this)).getResult();
+                break;
+
             case "quit":
                 wantToQuit = (boolean) new Context(new Quit(command, this)).getResult();
                 break;
+
         }
             // else command not recognised.
             return wantToQuit;
@@ -186,10 +192,9 @@ public class Game
 //        }
 //    }
 
-    public Parser getParser() {
-        return this.parser;
-    }
-    public Room getcurrentRoom() {
-        return this.currentRoom;
+    public Parser getParser() { return this.parser; }
+    public Room getcurrentRoom() { return this.currentRoom; }
+    public Player getPlayer() {
+        return Player;
     }
 }

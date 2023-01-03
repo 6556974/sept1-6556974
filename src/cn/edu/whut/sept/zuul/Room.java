@@ -15,7 +15,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;
-
+    protected HashMap<String,Integer> items=null;
     /**
      * Room对象主要有房间描述、出口两个属性.
      * @param description 对房间的相关描述.
@@ -71,6 +71,35 @@ public class Room
     public Room getExit(String direction)
     {
         return exits.get(direction);
+    }
+
+    public Integer showItems() {
+        Integer totalWeight=0;
+        //判断有无物品
+        if(this.items == null || this.items.isEmpty()){
+            System.out.println("There is nothing...");
+        } else {
+            String returnString = "items: ";
+            Set<String> keys = items.keySet();
+            for(String object : keys) {
+                totalWeight+=items.get(object);
+                returnString += " " + object;
+            }
+            System.out.println(returnString);
+        }
+        return totalWeight;
+    }
+
+    public Integer getItems(String description){
+        return items.get(description);
+    }
+
+    public void dropItems(String description) {
+        this.items.remove(description);
+    }
+
+    public void setItems(String description, Integer weight) {
+        this.items.put(description,weight);
     }
 }
 
