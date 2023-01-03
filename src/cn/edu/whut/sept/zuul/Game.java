@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class Game
 {
     private Parser parser;
-    //private Room currentRoom;
     private GeneralRoom startRoom;
     private Player player=null;
     private RoomFactory roomFactory;
@@ -63,7 +62,7 @@ public class Game
         roomFactory = new Office();
         GeneralRoom office= roomFactory.createRoom();
 
-        //创建随机传送房间
+        //创建随机房间
         roomFactory = new randomRoomBuilding();
         GeneralRoom rand= roomFactory.createRoom();
 
@@ -159,6 +158,21 @@ public class Game
                 break;
             case "look":
                 new Context(new Look(command, this)).getResult();
+                break;
+            case "back":
+                new Context(new Back(command, this)).getResult();
+                break;
+            case "take":
+                new Context(new Take(command, this)).getResult();
+                break;
+            case "drop":
+                new Context(new Drop(command, this)).getResult();
+                break;
+            case "item":
+                new Context(new Item(command, this)).getResult();
+                break;
+            case "eat":
+                new Context(new Eat(command, this)).getResult();
                 break;
 
             case "quit":
