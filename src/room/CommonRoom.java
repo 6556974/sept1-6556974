@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 public class CommonRoom extends GeneralRoom{
     private int number;
+    /**
+     * 普通房间.
+     */
     public CommonRoom(HashMap<String, Integer> item, int num,String description){
         super();
         this.setTransfer(false);

@@ -1,9 +1,9 @@
 package room;
 
-
 public class randomRoomBuilding implements RoomFactory {
     /**
-     * @return
+     * 创建房间.
+     * @return 返回随机房间.
      */
     @Override
     public GeneralRoom createRoom() {

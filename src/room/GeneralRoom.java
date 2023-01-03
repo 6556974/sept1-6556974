@@ -1,5 +1,8 @@
 /**
- * GeneralRoom为抽象类.
+ * GeneralRoom为抽象类，.
+ *
+ * @author Dian Tu
+ * @version 1.0
  */
 package room;
 

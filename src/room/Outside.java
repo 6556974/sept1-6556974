@@ -4,7 +4,8 @@ import java.util.HashMap;
 
 public class Outside implements RoomFactory{
     /**
-     * @return 返回一个抽象类
+     * 创建房间.
+     * @return 返回随机房间.
      */
     @Override
     public GeneralRoom createRoom() {
