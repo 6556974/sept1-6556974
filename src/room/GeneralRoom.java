@@ -73,7 +73,7 @@ public abstract class GeneralRoom {
         Integer totalWeight=0;
         //判断有无物品
         if(this.items == null || this.items.isEmpty()){
-            System.out.println("Eh……There is nothing……");
+            System.out.println("There is nothing...");
         } else {
             String returnString = "Objects:";
             Set<String> keys = items.keySet();

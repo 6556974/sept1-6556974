@@ -16,7 +16,7 @@ public class Back extends Operation{
     public Object copeWithCommand() {
         //判断是否有上个房间
         if(game.getPlayer().getLastRoom() == null){
-            System.out.println("You haven't move!");
+            System.out.println("You haven't move yet! please choose an exit to go first. ");
             return "default moving !";
         }
         // 尝试离开当前房间,前往新房间

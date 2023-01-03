@@ -29,7 +29,7 @@ public class Eat extends Operation{
             game.getPlayer().getCurrentRoom().dropItem(description);
             //玩家承重增加
             game.getPlayer().setMaxLoadNum(game.getPlayer().getMaxLoadNum()+2);
-            System.out.println("You can take more things now.");
+            System.out.println("Congratulations! You can take more things now.");
             return "Success!";
         }else{
             //查询玩家行李中是否有饼干
@@ -40,10 +40,10 @@ public class Eat extends Operation{
                 game.getPlayer().dropItem(description);
                 //玩家承重增加
                 game.getPlayer().setMaxLoadNum(game.getPlayer().getMaxLoadNum() + 2);
-                System.out.println("You can take more things now.");
+                System.out.println("Congratulations! You can take more things now.");
                 return "Success!";
             }else{
-                System.out.println("There is no cookie.");
+                System.out.println("Sorry, there is no cookie.");
                 return "No cookie!";
             }
         }

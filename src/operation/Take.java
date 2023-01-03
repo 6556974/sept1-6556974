@@ -23,7 +23,7 @@ public class Take extends Operation{
             System.out.println("There is nothing like “"+description+"”.");
             return "Wrong description! ";
         }else if(game.getPlayer().isOverWeight(weight)){
-            System.out.println("It will be overweight if you take it.");
+            System.out.println("It is overweight! You can't take it.");
             return "Overweight!";
         }else{
             //玩家添加物品
